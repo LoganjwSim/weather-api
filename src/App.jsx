@@ -61,7 +61,7 @@ const App = () => {
 
   const getWeather = async () => {
     const response = await axios.get(
-      "https://api.openweathermap.org/data/2.5/weather?lat=37.5612533&lon=126.7985384&appid=f9cd232dbbb4ca1f4cf80eb8468af216&units=metric"
+      `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_WEATHER_KEY}&units=metric`
     );
 
     setWeatherData(response.data);
@@ -78,6 +78,10 @@ const App = () => {
     getWeather();
   }, [latitude, longitude]);
 
+  useEffect(() => {
+    console.log(process.env.REACT_APP_WEATHER_KEY);
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col justify-center items-center text-2xl">
       {weatherData ? (
@@ -88,7 +92,7 @@ const App = () => {
         >
           {weatherIcon[weatherData.weather[0].icon.substring(0, 2)].icon}
           <div>
-            {weatherData.name}, {weatherData.main.temp}
+            {weatherData.name}, {weatherData.main.temp}℃
           </div>
         </div>
       ) : (
